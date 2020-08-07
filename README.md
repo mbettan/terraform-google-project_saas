@@ -5,6 +5,10 @@
 * A [GCP Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) linked with a valid biiling account
 * [Project IAM Admin](https://cloud.google.com/iam/docs/understanding-roles#resource-manager-roles) (**roles/resourcemanager.projectIamAdmin**) for your GCP account
 
+
+* [Shared VPC Admin](https://cloud.google.com/vpc/docs/shared-vpc#iam_roles_required_for_shared_vpc) (**compute.xpnAdmin** and
+**resourcemanager.projectIamAdmin**) for your service account to create the Shared VPC
+
 ## 1. Google Cloud SDK
 
 ### 1.1 Setup your environment
