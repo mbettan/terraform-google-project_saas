@@ -30,7 +30,7 @@ echo "Organization: ${ORG_ID}"
 
 **03 - Clone git repository**
 ```
-git clone https://github.com/mbettan/terraform-google-project-factory.git
+git clone https://github.com/mbettan/terraform-google-project_saas.git
 ```
 
 ## 2. Prepare you  GCP Project
@@ -130,11 +130,11 @@ terraform plan -out=plan.out
 | Name | Description | Type | Default | Required | Example |
 |------|-------------|:----:|:-----:|:-----:|-------------|
 | billing\_account | Billing account Identifier to be used. | string | n/a | yes | 11X1XX-1X1111-1X1XXX |
-| folder_id | Folder Identifier from the Google Cloud Console | string | `"fabric-project"` | yes | XXXXXXXXXXXX |
-| host_project_name | Host Project Name to be used | list(string) | `<list>` | yes | host_project |
+| folder_id | Folder Identifier from the Google Cloud Console | string | n/a | yes | XXXXXXXXXXXX |
+| host_project_name | Host Project Name to be used | list(string) | string | yes | host_project |
 | network_name | Choose a Virtual Private Cloud (VPC) name to be used  | string | n/a | yes | shared-network | 
-| organization_id | Organization Identifier from the Google Cloud Console | string | `""` | yes | XXXXXXXXXXXXX
-| service_project_name | Service Project Name to be used | string | `""` | yes | sandbox_client
+| organization_id | Organization Identifier from the Google Cloud Console | string | n/a | yes | XXXXXXXXXXXXX
+| service_project_name | Service Project Name to be used | string | n/a | yes | sandbox_client
 
 ### Parametrize from a variable file
 
