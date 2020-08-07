@@ -1,8 +1,8 @@
-# Project Factory - Gcloud
+# Project Factory
 
 ## 0. Prerequisite
 
-* A [GCP Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) linked with a valid billing account
+* A [GCP Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) linked with a valid biiling account
 * [Project IAM Admin](https://cloud.google.com/iam/docs/understanding-roles#resource-manager-roles) (**roles/resourcemanager.projectIamAdmin**) for your GCP account
 
 ## 1. Google Cloud SDK
@@ -30,10 +30,10 @@ echo "Organization: ${ORG_ID}"
 
 **03 - Clone git repository**
 ```
-git clone https://github.com/mbettan/gcloud-google-cloud-factory.git
+git clone https://github.com/mbettan/terraform-google-project-factory.git
 ```
 
-## 2. Prepare your GCP Project
+## 2. Prepare you  GCP Project
 
 ### 2.1 Google Cloud APIs
 
@@ -61,7 +61,7 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="user:${GCP_ACCOUN
 
 ### 2.3 Service Account
 
-Following the [least privilege principle](https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege), create a separate Service Account to run Terraform with. This is an optionnal step, feel free to skip this section, if you would like to use the logged-in account privledge to execute gcloud actions.
+Following the [least privilege principle](https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege), create a separate Service Account to run Terraform with. This is an optionnal step, feel free to skip this section, if you would like to use the logged-in account privledge to execute terraform actions.
 
 #### Create Service Account
 ```
@@ -111,25 +111,48 @@ Ensure the key is setup correctly by prompting the key file on the shell
 cat `echo ${GOOGLE_CLOUD_KEYFILE_JSON}`
 ```
 
-## 3 Executing the Gcloud actions
-
-### 3.1 Assigning User permissions at the folder level
+## 4. Plan sandbox project
 
 ```
-chmod +x iam-data-engineers.sh
-./iam-data-engineers.sh
+cd examples/fabric_project
+terraform init
+terraform plan -out=plan.out
 ```
 
-### 3.2 Assigning Groups permissions at the project level
+## 5. Deploy sandbox project
+
+## Inputs
+
+[Input variables](https://learn.hashicorp.com/terraform/getting-started/variables) serve as parameters for a Terraform module, allowing aspects of the module to be customized without altering the module's own source code, and allowing modules to be shared between different configurations. There are several ways to parametrize inputs: interactive, command-line flags and from a file.
+
+### Inputs definition
+
+| Name | Description | Type | Default | Required | Example |
+|------|-------------|:----:|:-----:|:-----:|-------------|
+| billing\_account | Billing account id. | string | n/a | yes | 11X1XX-1X1111-1X1XXX |
+| name | Project name, joined with prefix. | string | `"fabric-project"` | yes | `"sandbox-project"` |
+| owners | Optional list of IAM-format members to set as project owners. | list(string) | `<list>` | yes | ["user:username@domain.com"] |
+| parent | nnn is an Organization or folder identifer, in the `organizations/nnn` or `folders/nnn` format. | string | n/a | yes | organizations/111111111111 | 
+| prefix | Prefix prepended to project name, uses random id by default. | string | `""` | no | sandbox
+
+### Parametrize from a variable file
+
+Populate following mandatory variable values in a new terraform.tfvars in fabric_project
 
 ```
-chmod +x iam-group-data-engineers.sh
-./iam-group-data-engineers.sh
+billing_account = "11X1XX-1X1111-1X1XXX"
+name = "sandbox-project"
+owners = ["user:username@domain.com"]
+parent = "organizations/111111111111"
 ```
 
-### 3.3 Creating a project
+## Apply sandbox project
+```
+terraform apply "plan.out"
+```
+
+## 7. Delete sandbox project
 
 ```
-chmod +x create-project.sh
-./create-project.sh
+terraform destroy
 ```
