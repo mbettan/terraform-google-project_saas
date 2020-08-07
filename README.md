@@ -7,7 +7,8 @@
 
 
 * [Shared VPC Admin](https://cloud.google.com/vpc/docs/shared-vpc#iam_roles_required_for_shared_vpc) (**compute.xpnAdmin** and
-**resourcemanager.projectIamAdmin**) for your service account to create the Shared VPC
+**resourcemanager.projectIamAdmin**) for your service account to setup the Shared VPC
+* [Service Project Admin](https://cloud.google.com/vpc/docs/shared-vpc#iam_roles_required_for_shared_vpc) (**compute.networkUser**) for your service account to setup the Shared VPC
 
 ## 1. Google Cloud SDK
 
