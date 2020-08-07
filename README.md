@@ -1,4 +1,4 @@
-# Project Factory
+# SaaS Project Factory for Google Cloud
 
 ## 0. Prerequisite
 
@@ -114,7 +114,7 @@ cat `echo ${GOOGLE_CLOUD_KEYFILE_JSON}`
 ## 4. Plan sandbox project
 
 ```
-cd examples/fabric_project
+cd examples/shared_vpc
 terraform init
 terraform plan -out=plan.out
 ```
@@ -129,11 +129,12 @@ terraform plan -out=plan.out
 
 | Name | Description | Type | Default | Required | Example |
 |------|-------------|:----:|:-----:|:-----:|-------------|
-| billing\_account | Billing account id. | string | n/a | yes | 11X1XX-1X1111-1X1XXX |
-| name | Project name, joined with prefix. | string | `"fabric-project"` | yes | `"sandbox-project"` |
-| owners | Optional list of IAM-format members to set as project owners. | list(string) | `<list>` | yes | ["user:username@domain.com"] |
-| parent | nnn is an Organization or folder identifer, in the `organizations/nnn` or `folders/nnn` format. | string | n/a | yes | organizations/111111111111 | 
-| prefix | Prefix prepended to project name, uses random id by default. | string | `""` | no | sandbox
+| billing\_account | Billing account Identifier to be used. | string | n/a | yes | 11X1XX-1X1111-1X1XXX |
+| folder_id | Folder Identifier from the Google Cloud Console | string | `"fabric-project"` | yes | XXXXXXXXXXXX |
+| host_project_name | Host Project Name to be used | list(string) | `<list>` | yes | host_project |
+| network_name | Choose a Virtual Private Cloud (VPC) name to be used  | string | n/a | yes | shared-network | 
+| organization_id | Organization Identifier from the Google Cloud Console | string | `""` | yes | XXXXXXXXXXXXX
+| service_project_name | Service Project Name to be used | string | `""` | yes | sandbox_client
 
 ### Parametrize from a variable file
 
@@ -141,9 +142,11 @@ Populate following mandatory variable values in a new terraform.tfvars in fabric
 
 ```
 billing_account = "11X1XX-1X1111-1X1XXX"
-name = "sandbox-project"
-owners = ["user:username@domain.com"]
-parent = "organizations/111111111111"
+folder_id = "XXXXXXXXXXXX"
+host_project_name = "host_project"
+network_name = "shared-network"
+organization_id = "XXXXXXXXXXXXX"
+service_project_name = "sandbox"
 ```
 
 ## Apply sandbox project
