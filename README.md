@@ -1,5 +1,16 @@
 # SaaS Project Factory for Google Cloud
 
+This Terraform project  illustrates how to automate a SaaS Project factory on Google Cloud.
+
+This example illustrates how to:
+* Create a [Shared VPC](https://cloud.google.com/vpc/docs/shared-vpc) host project.
+* Create the host project and using the [network module](https://github.com/terraform-google-modules/terraform-google-network) to create network.
+* Attach the new service projects to the host project.
+* Configure Firewall rules
+* Reserve an External Static IP
+* Create a Bastion Host and assign the external IP
+
+
 ## 0. Prerequisite
 
 * A [GCP Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) linked with a valid biiling account
