@@ -145,12 +145,12 @@ terraform plan -out=plan.out
 
 | Name | Description | Type | Default | Required | Example |
 |------|-------------|:----:|:-----:|:-----:|-------------|
-| billing\_account | Billing account Identifier to be used. | string | n/a | yes | 11X1XX-1X1111-1X1XXX |
-| folder_id | Folder Identifier from the Google Cloud Console | string | n/a | yes | XXXXXXXXXXXX |
-| host_project_name | Host Project Name to be used | list(string) | string | yes | host_project |
-| network_name | Choose a Virtual Private Cloud (VPC) name to be used  | string | n/a | yes | shared-network | 
-| organization_id | Organization Identifier from the Google Cloud Console | string | n/a | yes | XXXXXXXXXXXXX
-| service_project_name | Service Project Name to be used | string | n/a | yes | sandbox_client
+| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes | 11X1XX-1X1111-1X1XXX |
+| folder\_id | The folder to create projects in | string | n/a | yes | XXXXXXXXXXXX |
+| host\_project\_name | Name for Shared VPC host project | string | `"shared-vpc-host"` | no | host_project |
+| network\_name | Name for Shared VPC network | string | `"shared-network"` | no | shared-network | 
+| organization\_id | The organization id for the associated services | string | n/a | yes | XXXXXXXXXXXXX
+| service\_project\_name | Name for Shared VPC service project | string | `"shared-vpc-service"` | no | sandbox_client
 
 ### Parametrize from a variable file
 
@@ -169,6 +169,19 @@ service_project_name = "sandbox"
 ```
 terraform apply "plan.out"
 ```
+
+## Ouputs
+
+| Name | Description |
+|------|-------------|
+| host\_project | The full host project info |
+| host\_project\_id | The ID of the created project |
+| network\_name | The name of the VPC being created |
+| network\_self\_link | The URI of the VPC being created |
+| service\_project | The service project info |
+| service\_project\_b | The second service project |
+| subnets | The shared VPC subets |
+| vpc | The network info |
 
 ## 7. Delete sandbox project
 
