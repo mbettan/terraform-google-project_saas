@@ -13,8 +13,9 @@ This example illustrates how to:
 
 ## 0. Prerequisite
 
-* A [GCP Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) linked with a valid biiling account
+* A [GCP Seed Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project) linked with a valid biiling account
 * [Project IAM Admin](https://cloud.google.com/iam/docs/understanding-roles#resource-manager-roles) (**roles/resourcemanager.projectIamAdmin**) for your GCP account
+* Terraform 0.12.6
 
 
 * [Shared VPC Admin](https://cloud.google.com/vpc/docs/shared-vpc#iam_roles_required_for_shared_vpc) (**compute.xpnAdmin** and
@@ -33,7 +34,8 @@ This example illustrates how to:
 export ORG_ID=YOUR_ORG_ID
 export PROJECT_ID=YOUR_PROJECT_ID
 export GCP_ACCOUNT_EMAIL=<YOUR_GCP_ACCOUNT_EMAIL>
-export SERVICE_ACCOUNT=svc-terraform-sandbox@${PROJECT_ID}.iam.gserviceaccount.com
+export SERVICE_ACCOUNT_SHORT=svc-terraform-sandbox
+export SERVICE_ACCOUNT=${SERVICE_ACCOUNT_SHORT}@${PROJECT_ID}.iam.gserviceaccount.com
 ```
 
 **02 - Verify the environment variables are set**
@@ -41,6 +43,7 @@ export SERVICE_ACCOUNT=svc-terraform-sandbox@${PROJECT_ID}.iam.gserviceaccount.c
 echo "Project: ${PROJECT_ID}"
 echo "GCP Account: ${GCP_ACCOUNT_EMAIL}"
 echo "Service Account: ${SERVICE_ACCOUNT}"
+echo "Service Account (Shortname): ${SERVICE_ACCOUNT_SHORT}"
 echo "Organization: ${ORG_ID}"
 ```
 
@@ -50,6 +53,20 @@ git clone https://github.com/mbettan/terraform-google-project_saas.git
 ```
 
 ## 2. Prepare you  GCP Project
+
+### 2.0 Configure Google Cloud SDK
+
+* Configuration needed for the project and username
+```
+gcloud config set project ${PROJECT_ID}
+gcloud config set account ${GCP_ACCOUNT_EMAIL}
+gcloud config list
+cloud config configurations list
+```
+* Authentificate with your account
+```
+gcloud auth login
+```
 
 ### 2.1 Google Cloud APIs
 
@@ -81,7 +98,7 @@ Following the [least privilege principle](https://cloud.google.com/blog/products
 
 #### Create Service Account
 ```
-gcloud iam service-accounts create svc-terraform-sandbox --description="Terraform Service Account" --display-name="Terraform Service Account"
+gcloud iam service-accounts create ${SERVICE_ACCOUNT_SHORT} --description="Terraform Service Account" --display-name="Terraform Service Account"
 ```
 
 #### Verify Service Account
@@ -127,12 +144,11 @@ Ensure the key is setup correctly by prompting the key file on the shell
 cat `echo ${GOOGLE_CLOUD_KEYFILE_JSON}`
 ```
 
-## 4. Plan sandbox project
+## 4. Initialize Terraform project
 
 ```
 cd examples/shared_vpc
 terraform init
-terraform plan -out=plan.out
 ```
 
 ## 5. Deploy sandbox project
@@ -163,6 +179,11 @@ host_project_name = "host_project"
 network_name = "shared-network"
 organization_id = "XXXXXXXXXXXXX"
 service_project_name = "sandbox"
+```
+
+## Plan sandbox project
+```
+terraform plan -out=plan.out
 ```
 
 ## Apply sandbox project
